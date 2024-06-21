@@ -15,8 +15,18 @@
     Running the code will display the Main Menu, giving the user three options; Display Movies, Add Movie, 
     and Exit. Selecting Display Movies promts the user to pick a list, and will then iterate through it.
     The Add Movie option needs to be finished, and will only output a string into the terminal.
+
+    OSP     06/21/2024  Completed the Add Movie option previously mentioned as well as added the Start
+    Showing Movies option. Created the stringToDate method which converts a passed-in string into a date
+    that can be added to a Movie object. Created the compareMovies method which compares a passed-in movie
+    list with a passed-in movie. Created the comingToShowing method which finds movies in the "coming"
+    list with a specific passed in release date and adds them to the "showing" list.
+    Removed the "Add New Showing Movie" and "Add New Coming Soon" options and replaced them with a single
+    "Add Movie" option to more closely follow the project requirements.
 ----------------------------------------------------------------------------------------------------------
 */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -48,7 +58,10 @@ public class ManagmentSystem {
                 case 2: //Add Movie
                     listSelectMenu(choice, ListShowing, ListComing);
                     break;
-                case 3: //Exit
+                case 3: // Show Movies
+                    listSelectMenu(choice, ListShowing, ListComing);
+                    break;
+                case 4: //Exit
                 blnExit = true;
                     break;
                 default:
@@ -93,7 +106,8 @@ public class ManagmentSystem {
         System.out.println("\n===== Main Menu =====");
         System.out.println("1. Display Movies");
         System.out.println("2. Add Movie");
-        System.out.println("3. Exit");
+        System.out.println("3. Start Showing Movies");
+        System.out.println("4. Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -123,22 +137,60 @@ public class ManagmentSystem {
                 }
                 break;
             case 2://Add Movie
+                // Adds movie to the "coming" list, can be changed to "showing" list later
                 System.out.println("\n===== Add Movie =====");
-                System.out.println("1. Add New Showing Movie");
-                System.out.println("2. Add New Coming Soon");
-                System.out.print("Enter your choice: ");
-                NextChoice = scnKeybord.nextInt();
-                scnKeybord.nextLine(); // clears scanner
-                switch (NextChoice){
-                    case 1://Add to Movies Showing                      
-                        System.out.println("\nAdd movie to ListShowing");
-                        waitForUser();
-                        break;
-                    case 2://Add to Movies Coming
-                        System.out.println("\nAdd movie to ListComing");
-                        waitForUser();
-                        break;
+                Movie newMovie = new Movie(null,null,null,null,null);
+
+                // Sets user input as movie title
+                System.out.print("\nEnter your movie's name: ");
+                newMovie.setTitle(scnKeybord.nextLine());
+
+                // Sets user input as movie description
+                System.out.print("Enter your movie's description: ");
+                newMovie.setDescription(scnKeybord.nextLine());
+
+                // Sets user input as movie received date
+                System.out.print("Enter your movie's received date (MM/DD/YYYY): ");
+                Date dateRecieve = stringToDate(scnKeybord.nextLine());
+                if (dateRecieve == null){break;} // Won't add movie if user enters invalid date format
+                newMovie.setReceiveDate(dateRecieve);
+
+                // Sets user input as movie release date
+                System.out.print("Enter your movie's release date (MM/DD/YYYY): ");
+                Date dateRelease = stringToDate(scnKeybord.nextLine());
+                if (dateRelease == null){break;} // Won't add movie if user enters invalid date format
+                newMovie.setReleaseDate(dateRelease);
+
+                // Automatically sets the movie's status as received
+                newMovie.setReleaseStatus(Movie.Status.RECEIVED);
+
+                // Won't add movie to coming list if release date is before received date
+                if (newMovie.getReleaseDate().compareTo(newMovie.getReceiveDate()) < 1){
+                    System.out.println("\nYour movie's release date is before the received date.");
+                    break;
                 }
+
+                // Won't add movie to coming list if it already exists
+                if (compareMovies(ListComing, newMovie)){
+                    System.out.println("\nYour movie already exists.");
+                    break;
+                } else {
+                    ListComing.add(newMovie);
+                    System.out.println("\nYour movie " + newMovie.getTitle() + " was successfully added!\n");
+                }
+                waitForUser();
+                break;
+            case 3: // Start Showing Movies
+                System.out.println("\n===== Start Showing Movies =====");
+                System.out.print("\nEnter the release date of movies you want to start showing (MM/DD/YYYY): ");
+                Date dateShow = stringToDate(scnKeybord.nextLine());
+                if (dateShow == null){break;} // Will exit if user enters invalid date format
+                // Adds movie to "showing" list
+                int intMovieCount = comingToShowing(ListComing, ListShowing, dateShow);
+                System.out.print("\n" + intMovieCount);
+                System.out.println((intMovieCount == 1) ?
+                " movie is now being shown." :" movies are now being shown.\n");
+                waitForUser();
                 break;
         }
     }
@@ -168,5 +220,53 @@ public class ManagmentSystem {
         System.out.println("Hit the [Enter] key when ready to continue");
         System.out.println("-".repeat(45));
         scnKeybord.nextLine();
+    }
+
+    // Converts a passed in string into a date object, returns date object 
+    public static Date stringToDate(String strDate){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        try { // Attempts to convert the passed in string into a Date object using the formatter's format
+            Date dateNew = formatter.parse(strDate);
+            return dateNew;
+        } catch (ParseException p) { // Catches if the passed in string doesn't match the date format
+            System.out.println("\nERROR: The date you entered was not in a valid format.");
+            return null;
+        }
+    }
+
+    // Compares a passed in movie to the movies in a passed in list
+    // Returns true if passed in movie exists in list, false if it doesn't
+    public static boolean compareMovies(LinkedList<Movie> movieList, Movie newMovie){
+        ListIterator<Movie> iterator = movieList.listIterator();
+        while (iterator.hasNext()){
+            Movie listMovie = iterator.next();
+            if (listMovie.getTitle().equals(newMovie.getTitle())&&
+            listMovie.getDescription().equals(newMovie.getDescription())&&
+            listMovie.getReceiveDate().equals(newMovie.getReceiveDate())&&
+            listMovie.getReleaseDate().equals(newMovie.getReleaseDate())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Finds movies in the "coming" list with a passed in release date and adds them to the "showing" list
+    public static int comingToShowing(LinkedList<Movie> comingList, LinkedList<Movie> showingList,Date releaseDate){
+        ListIterator<Movie> iterator = comingList.listIterator();
+        int movieCount = 0; // Counts how many movies were moved to the "showing" list
+        while (iterator.hasNext()){
+            Movie listMovie = iterator.next();
+            if (listMovie.getReleaseDate().equals(releaseDate)){
+                if (!compareMovies(showingList, listMovie)){
+                    /* Movie gets moved if it has the specified release date and
+                       doesn't already exist in the "showing" list */
+                    listMovie.setReleaseStatus(Movie.Status.RELEASED);
+                    showingList.add(listMovie);
+                    comingList.remove(listMovie);
+                    movieCount++;
+                }
+            }
+        }
+        return movieCount;
     }
 }
