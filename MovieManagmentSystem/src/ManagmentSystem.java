@@ -28,6 +28,10 @@
     coming list, to have it's description and date edited. It passes in 1 LinkedList param and 3 String
     params. It also is a void function since nothing is needed to be returned. I also adjusted some of the
     code so Eclipse can function properly.
+
+    JQS 06/24/2024  Added a new "orderComingList" method that will sort the "coming" list by non-descending
+    order. This method is called underneath the ListSelectMenu method to ensure the list is ordered before
+    the GUI displays the list.
 ----------------------------------------------------------------------------------------------------------
 */
 package main;
@@ -121,6 +125,7 @@ public class ManagmentSystem {
     //Called when user enters Displays Movies, or Adds Movie into the main menu
     //Gives the user to the option of which list to diplay/manipulate
     private static void listSelectMenu(int choice, LinkedList<Movie> ListShowing, LinkedList<Movie> ListComing) {
+    	orderComingList(ListComing); // Orders the "coming" list by non-descending order.
         switch (choice){
             case 1://Display Movies
                 System.out.println("\n===== Display Movies =====");
@@ -276,7 +281,8 @@ public class ManagmentSystem {
         }
         return movieCount;
     }
-    // Function that will edit a movie inside the "coming" list, either a new date, description or both.
+    
+    // Edits a movie inside the "coming" list with either a new date, description or both.
     public static void editComingMovie(LinkedList<Movie> ListComing, String movieToFind, String newReleaseDate, String newDescription) {
         ListIterator<Movie> iterator = ListComing.listIterator();
         while (iterator.hasNext()) {
@@ -289,5 +295,11 @@ public class ManagmentSystem {
                 if (newDescription != null) { movie.setDescription(newDescription); }
             }
         }
+    }
+    
+    // Orders the "coming" list by non-descending order using the sort method
+	public static void orderComingList(LinkedList<Movie> ListComing) {
+        // Sorts via comparing the current movie's date with the next movie's date in the list
+		ListComing.sort((thisMovie, nextMovie) -> thisMovie.getReleaseDate().compareTo(nextMovie.getReleaseDate()));
     }
 }
