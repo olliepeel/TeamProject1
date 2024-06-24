@@ -23,8 +23,15 @@
     list with a specific passed in release date and adds them to the "showing" list.
     Removed the "Add New Showing Movie" and "Add New Coming Soon" options and replaced them with a single
     "Add Movie" option to more closely follow the project requirements.
+
+    Jeffrey S. 06/23/2024 Added a new "editComingMovie" function that allows a movie inside a list, the
+    coming list, to have it's description and date edited. It passes in 1 LinkedList param and 3 String
+    params. It also is a void function since nothing is needed to be returned. I also adjusted some of the
+    code so Eclipse can function properly.
 ----------------------------------------------------------------------------------------------------------
 */
+package main;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -268,5 +275,19 @@ public class ManagmentSystem {
             }
         }
         return movieCount;
+    }
+    // Function that will edit a movie inside the "coming" list, either a new date, description or both.
+    public static void editComingMovie(LinkedList<Movie> ListComing, String movieToFind, String newReleaseDate, String newDescription) {
+        ListIterator<Movie> iterator = ListComing.listIterator();
+        while (iterator.hasNext()) {
+            Movie movie = iterator.next();
+            String movieTitle = movie.getTitle();
+            Date newDate = stringToDate(newReleaseDate); // Changes the String object of newReleaseDate into a Date object
+            
+            if (movieTitle.toLowerCase().equals(movieToFind.toLowerCase())) { // Comparing the current movie in the loop to the String given
+            	if (newReleaseDate != null) { movie.setReleaseDate(newDate); } // If any of the params needed aren't null, change the movie date/desc to it
+                if (newDescription != null) { movie.setDescription(newDescription); }
+            }
+        }
     }
 }

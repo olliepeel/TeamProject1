@@ -10,8 +10,13 @@
 ----------------------------------------------------------------------------------------------------------
     Who		Date		Change
     MTJ		06-20-2024	Original Version of Code.
+
+    Jeff    06-23-2024  Added some lines of code so Eclipse can run the program properly.
 ----------------------------------------------------------------------------------------------------------
 */
+
+package main;
+
 import java.util.Date;
 
 public class Movie {
