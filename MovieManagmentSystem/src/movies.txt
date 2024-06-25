@@ -1,0 +1,39 @@
+# Showing Movies
+
+Title: Lord of the Rings
+Description: Ring ring
+ReleaseDate: 06/01/2024
+ReceiveDate: 05/01/2024
+Status: RELEASED
+
+Title: Star Wars the Phantom Menace
+Description: Lightsabers
+ReleaseDate: 06/15/2024
+ReceiveDate: 05/15/2024
+Status: RELEASED
+
+Title: Big Hero 6
+Description: Medical robot gone violent
+ReleaseDate: 07/01/2024
+ReceiveDate: 06/01/2024
+Status: RELEASED
+
+# Coming Movies
+
+Title: The Barbie Movie
+Description: Cool people only
+ReleaseDate: 08/01/2024
+ReceiveDate: 07/01/2024
+Status: RECEIVED
+
+Title: Five Nights at Freddy's
+Description: Animatronics on the loose
+ReleaseDate: 08/15/2024
+ReceiveDate: 07/15/2024
+Status: RECEIVED
+
+Title: Avatar
+Description: Blue people
+ReleaseDate: 09/01/2024
+ReceiveDate: 08/01/2024
+Status: RECEIVED
