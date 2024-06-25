@@ -75,7 +75,10 @@ public class ManagmentSystem {
                 case 3: // Show Movies
                     listSelectMenu(choice, ListShowing, ListComing);
                     break;
-                case 4: //Exit
+		case 4: // user enters a specified date
+		  System.out.println("Please enter a specified date.");
+			    
+                case 5: //Exit
                 blnExit = true;
                     break;
                 default:
@@ -307,13 +310,14 @@ public class ManagmentSystem {
     }
 }
     //Counts the number of "coming" movies earlier than a specified date
-	public int countdatesBefore(Date date) throws IllegalArgumentException {
-    if (date == null) {
-        throw new IllegalArgumentException ("Invalid date. Try again."); 
+    public static  int countdatesBefore(LinkedList<Movie> ListComing, Date date) throws IllegalArgumentException {
+        if (date == null) {
+            throw new IllegalArgumentException ("Invalid date. Try again."); 
     }
     int count = 0;
-    Movie[] datesBefore = null;
-	for (Movie movie : datesBefore) {
+    istIterator<Movie> iterator = ListComing.listIterator();
+    while (iterator.hasNext()) {
+	Movie movie = iterator.next();
         if (movie.getReleaseDate().before(date)) {
             count++;
 	
