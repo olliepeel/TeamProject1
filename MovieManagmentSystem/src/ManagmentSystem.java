@@ -32,6 +32,9 @@
     JQS 06/24/2024  Added a new "orderComingList" method that will sort the "coming" list by non-descending
     order. This method is called underneath the ListSelectMenu method to ensure the list is ordered before
     the GUI displays the list.
+
+
+    RTA 06/24/2024  Added a new "countDatesBefore" method to count the "coming" movies before a user-specified date
 ----------------------------------------------------------------------------------------------------------
 */
 package main;
@@ -302,4 +305,20 @@ public class ManagmentSystem {
         // Sorts via comparing the current movie's date with the next movie's date in the list
 		ListComing.sort((thisMovie, nextMovie) -> thisMovie.getReleaseDate().compareTo(nextMovie.getReleaseDate()));
     }
+}
+    //Counts the number of "coming" movies earlier than a specified date
+	public int countdatesBefore(Date date) throws IllegalArgumentException {
+    if (date == null) {
+        throw new IllegalArgumentException ("Invalid date. Try again."); 
+    }
+    int count = 0;
+    Movie[] datesBefore = null;
+	for (Movie movie : datesBefore) {
+        if (movie.getReleaseDate().before(date)) {
+            count++;
+	
+        }
+    }
+    return count;
+  }
 }
