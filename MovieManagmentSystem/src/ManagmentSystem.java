@@ -37,7 +37,6 @@
     RTA 06/24/2024  Added a new "countDatesBefore" method to count the "coming" movies before a user-specified date
 ----------------------------------------------------------------------------------------------------------
 */
-package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,7 +76,7 @@ public class ManagmentSystem {
                     break;
 		case 4: // user enters a specified date
 		  System.out.println("Please enter a specified date.");  //asks user to enter their date of choice
-		  string dateString = scnKeyboard,nextLine(); // clears scanner   
+		  String dateString = scnKeybord.nextLine(); // clears scanner   
 		  Date date = stringToDate(dateString);  //converts string entered into object in Date
    		  int count = countdatesBefore(ListComing, date);  //reads as the number counted
 	          System.out.println(count + " movies are coming before this date.");	
@@ -312,7 +311,7 @@ public class ManagmentSystem {
         // Sorts via comparing the current movie's date with the next movie's date in the list
 		ListComing.sort((thisMovie, nextMovie) -> thisMovie.getReleaseDate().compareTo(nextMovie.getReleaseDate()));
     }
-}
+
     //Counts the number of "coming" movies earlier than a specified date
     public static  int countdatesBefore(LinkedList<Movie> ListComing, Date date) throws IllegalArgumentException {
         if (date == null) {
