@@ -76,8 +76,12 @@ public class ManagmentSystem {
                     listSelectMenu(choice, ListShowing, ListComing);
                     break;
 		case 4: // user enters a specified date
-		  System.out.println("Please enter a specified date.");
-			    
+		  System.out.println("Please enter a specified date.");  //asks user to enter their date of choice
+		  string dateString = scnKeyboard,nextLine(); // clears scanner   
+		  Date date = stringToDate(dateString);  //converts string entered into object in Date
+   		  int count = countdatesBefore(ListComing, date);  //reads as the number counted
+	          System.out.println(count + " movies are coming before this date.");	
+		  break;
                 case 5: //Exit
                 blnExit = true;
                     break;
