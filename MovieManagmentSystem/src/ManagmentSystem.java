@@ -71,18 +71,21 @@ public class ManagmentSystem {
                 case 2: //Add Movie
                     listSelectMenu(choice, ListShowing, ListComing);
                     break;
-                case 3: // Show Movies
+                case 3: //Show Movies
                     listSelectMenu(choice, ListShowing, ListComing);
                     break;
-		case 4: // user enters a specified date
-		  System.out.println("Please enter a specified date.");  //asks user to enter their date of choice
-		  String dateString = scnKeybord.nextLine(); // clears scanner   
-		  Date date = stringToDate(dateString);  //converts string entered into object in Date
-   		  int count = countdatesBefore(ListComing, date);  //reads as the number counted
-	          System.out.println(count + " movies are coming before this date.");	
-		  break;
-                case 5: //Exit
-                blnExit = true;
+                case 4: //Count movies coming before specified date
+                    System.out.println("");
+                    System.out.println("Please enter a specified date (MM/DD/YYYY): ");  //asks user to enter their date of choice
+                    String dateString = scnKeybord.nextLine(); // clears scanner   
+                    Date date = stringToDate(dateString);  //converts string entered into object in Date
+                    int count = countdatesBefore(ListComing, date);  //reads as the number counted
+                            
+                    System.out.println(count + " movies are coming before this date.");
+                    waitForUser();	
+                break;
+                    case 5: //Exit
+                    blnExit = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please enter again.");
@@ -127,7 +130,8 @@ public class ManagmentSystem {
         System.out.println("1. Display Movies");
         System.out.println("2. Add Movie");
         System.out.println("3. Start Showing Movies");
-        System.out.println("4. Exit");
+        System.out.println("4. Count Movies Coming Before Specified Date");
+        System.out.println("5. Exit");
         System.out.print("Enter your choice: ");
     }
 
