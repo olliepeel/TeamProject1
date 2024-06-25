@@ -315,7 +315,7 @@ public class ManagmentSystem {
             throw new IllegalArgumentException ("Invalid date. Try again."); 
     }
     int count = 0;
-    istIterator<Movie> iterator = ListComing.listIterator();
+    ListIterator<Movie> iterator = ListComing.listIterator();
     while (iterator.hasNext()) {
 	Movie movie = iterator.next();
         if (movie.getReleaseDate().before(date)) {
