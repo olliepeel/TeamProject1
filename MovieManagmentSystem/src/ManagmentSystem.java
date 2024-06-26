@@ -35,9 +35,11 @@
 
 
     RTA 06/24/2024  Added a new "countDatesBefore" method to count the "coming" movies before a user-specified date
+    
+    JQS 06/25/2024 Added a new choice in the menu list to edit a movie in the coming list using the 
+    editComingMovie method.
 ----------------------------------------------------------------------------------------------------------
 */
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,10 +85,25 @@ public class ManagmentSystem {
                             
                     System.out.println(count + " movies are coming before this date.");
                     waitForUser();	
-                break;
-                    case 5: //Exit
-                    blnExit = true;
                     break;
+                case 5: // Editing coming movie
+                	System.out.println("");
+                	
+                	System.out.println("Please enter the title of the movie you want to edit: ");
+                	String movieTitle = scnKeybord.nextLine();
+                	
+                	System.out.println("Please enter the new release date: ");
+                	String newDate = scnKeybord.nextLine();
+                	
+                	System.out.println("Please enter the new movie description: ");
+                	String newDesc = scnKeybord.nextLine();
+                	
+                	editComingMovie(ListComing, movieTitle, newDate, newDesc);
+                	waitForUser();
+                	break;
+                case 6:
+                	blnExit = true;
+                	break;
                 default:
                     System.out.println("Invalid choice. Please enter again.");
             }
@@ -131,7 +148,8 @@ public class ManagmentSystem {
         System.out.println("2. Add Movie");
         System.out.println("3. Start Showing Movies");
         System.out.println("4. Count Movies Coming Before Specified Date");
-        System.out.println("5. Exit");
+        System.out.println("5. Edit Movie Inside Coming List");
+        System.out.println("6. Exit");
         System.out.print("Enter your choice: ");
     }
 
